@@ -9,9 +9,9 @@ export default function Setup() {
 
     const [name, setName] = useState("")
 
-    if (!session || !session.user) return null
+    if (!session || !session.user) return <p>please log in</p>
 
-    if (loading) return <p>. . . loading</p>
+    if (loading) return <p className="loading">. . . loading</p>
 
     if (!loading && session.user.name) {
         router.push("/dashboard")

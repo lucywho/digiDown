@@ -35,7 +35,9 @@ export default function Heading() {
                         <p>Welcome</p>
                     ) : (
                         <Link href={`/`}>
-                            <a className="underline">Home</a>
+                            <a className="hover:underline hover:text-amber-400">
+                                Home
+                            </a>
                         </Link>
                     )}
                 </div>
@@ -57,7 +59,7 @@ export default function Heading() {
                         </Link>
                     ))}
                 <a
-                    className="button"
+                    className="button max-h-10"
                     href={session ? "/api/auth/signout" : "/api/auth/signin"}
                 >
                     {session ? "logout" : "login"}

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/react"
 
@@ -8,7 +9,7 @@ export default function Dashboard() {
     const loading = status === "loading"
 
     if (loading) {
-        return <p>. . . loading</p>
+        return <p className="loading">. . . loading</p>
     }
 
     if (!session) {
@@ -21,7 +22,13 @@ export default function Dashboard() {
 
     return (
         <div>
-            <p>dashboard index</p>
+            <h1 className="flex justify-center mt-20 text-xl">Dashboard</h1>
+
+            <div className="flex justify-center mt-10">
+                <Link href={`/dashboard/new`}>
+                    <a className="button text-xl p-2">Create a new product</a>
+                </Link>
+            </div>
         </div>
     )
 }
