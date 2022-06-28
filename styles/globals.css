@@ -1,24 +1,48 @@
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  /* uncomment for "dark mode"
-  background-color: black;
-  color: white;
-  */
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+    background-color: #0a1c0a;
+    color: #00e676;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input {
+    background: #ffecb3;
+    color: #ff6f00;
+    text-align: center;
+    font-weight: bold;
+}
+
+.button {
+    border: 2px solid #00e676;
+    padding: 4px 6px;
+    max-height: 2.5rem;
+}
+
+.button:hover {
+    background-color: #00e676;
+    color: #1b5e20;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* green-50 #e8f5e9
+green-400-accent #00e676
+green-900 #1b5e20
+amber-100 #ffecb3 
+amber-900 #ff6f00
+gray-900 #212121 */
