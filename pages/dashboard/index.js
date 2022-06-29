@@ -24,15 +24,15 @@ export default function Dashboard({ products }) {
 
     return (
         <div>
-            <h1 className="flex justify-center mt-5 text-xl">Dashboard</h1>
-
-            <div className="flex justify-center my-5 ">
+            <div className="flex justify-end  mr-5">
                 <Link href={`/dashboard/new`}>
-                    <p className="button text-xl p-2">create a new product</p>
+                    <p className="button text-sm p-2 border-amber-400">
+                        create a new product
+                    </p>
                 </Link>
             </div>
 
-            <div className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full border-t-2 border-green-500 ">
+            <div className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
                 your listed products
             </div>
             <div className="flex flex-col content-center justify-between w-2/3 mx-auto mt-5">
@@ -46,11 +46,13 @@ export default function Dashboard({ products }) {
                                 <img
                                     src={product.image}
                                     className="w-14 h-14 basis-1/10"
+                                    alt="product image"
                                 />
                             ) : (
                                 <img
                                     src="/digid.ico"
                                     className="w-14 h-14 basis-1/10 border border-green-400 rounded-full"
+                                    alt="default icon"
                                 />
                             )}
                             <p className="basis-3/10 font-bold">
@@ -70,6 +72,11 @@ export default function Dashboard({ products }) {
                             <Link href={`/dashboard/product/${product.id}`}>
                                 <a className="button h-fit uppercase basis-1/10">
                                     Edit
+                                </a>
+                            </Link>
+                            <Link href={`/product/${product.id}`}>
+                                <a className="button h-fit uppercase basis-1/10">
+                                    View
                                 </a>
                             </Link>
                         </div>

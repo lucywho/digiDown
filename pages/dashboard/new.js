@@ -26,7 +26,7 @@ export default function NewProduct() {
     return (
         <div>
             <h1 className="flex justify-center text-2xl font-bold text-amber-400">
-                Add a new product
+                add a new product
             </h1>
 
             <div className="flex justify-center">

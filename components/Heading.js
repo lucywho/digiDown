@@ -28,38 +28,48 @@ export default function Heading() {
                 <link rel="icon" href="./digid.ico" />
             </Head>
 
-            <header className="min-h-14 flex pt-5 px-5 pb-2">
+            <header className="min-h-14 flex pt-5 px-5 pb-2 border-b-green-500">
                 <div className="text-xl">
                     <p className="font-bold text-2xl">
                         digiDown<span className="blink"> _</span>
                     </p>
-                    {router.asPath === "/" ? (
-                        <p>Welcome</p>
-                    ) : (
-                        <Link href={`/`}>
-                            <a className="hover:underline hover:text-amber-400">
-                                Home
-                            </a>
-                        </Link>
+                </div>
+                <div className="flex flex-row items-center justify-center w-full">
+                    {router.asPath === "/" && (
+                        <p className="text-amber-400 text-xl font-bold">
+                            welcome
+                        </p>
+                    )}
+
+                    {router.asPath === "/dashboard" && (
+                        <p className="text-amber-400 text-xl font-bold uppercase">
+                            dashboard
+                        </p>
                     )}
                 </div>
 
                 <div className="grow ml-10 -mt-1"></div>
 
-                {session &&
-                    (router.asPath === "/dashboard" ? (
+                {session && router.asPath !== "/dashboard" && (
+                    <Link href={`/dashboard`}>
                         <a className="flex">
-                            <p className="mr-3 font-bold">Dashboard</p>
+                            <p className="button max-h-10 mr-3 hover:underline hover:text-amber-400">
+                                dashboard
+                            </p>
                         </a>
-                    ) : (
-                        <Link href={`/dashboard`}>
-                            <a className="flex">
-                                <p className="mr-3 hover:underline hover:text-amber-400">
-                                    Dashboard
-                                </p>
-                            </a>
-                        </Link>
-                    ))}
+                    </Link>
+                )}
+
+                {session && router.asPath !== "/" && (
+                    <Link href={`/`}>
+                        <a className="flex">
+                            <p className="button max-h-10 mr-3 hover:underline hover:text-amber-400">
+                                home
+                            </p>
+                        </a>
+                    </Link>
+                )}
+
                 <a
                     className="button max-h-10"
                     href={session ? "/api/auth/signout" : "/api/auth/signin"}
