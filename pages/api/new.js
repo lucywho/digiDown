@@ -2,6 +2,7 @@ import { getSession } from "next-auth/react"
 import nextConnect from "next-connect"
 import prisma from "lib/prisma"
 import middleware from "middleware/middleware"
+import { upload } from "lib/upload"
 
 const handler = nextConnect()
 handler.use(middleware)

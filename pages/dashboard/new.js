@@ -61,7 +61,7 @@ export default function NewProduct() {
                             required
                         />
                         <div className="relative flex items-start mt-2">
-                            <div className="flex items-center h-5">
+                            <div className="flex items-center h-5 ">
                                 <input
                                     type="checkbox"
                                     checked={free}
@@ -69,7 +69,7 @@ export default function NewProduct() {
                                 />
                             </div>
 
-                            <div className="ml-3 text-sm mb-2">
+                            <div className="ml-3 text-sm mb-2 ">
                                 <label>check if the product is free</label>
                             </div>
                         </div>
@@ -81,7 +81,7 @@ export default function NewProduct() {
                                 <input
                                     pattern="^\d*(\.\d{0,2})?$"
                                     onChange={(e) => setPrice(e.target.value)}
-                                    className="border p-1 mb-5 text-amber-900"
+                                    className="border p-1 mb-5 text-amber-900 appearance-none"
                                     required
                                 />
                             </>
