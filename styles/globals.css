@@ -19,9 +19,10 @@ a {
 }
 
 input,
-textarea {
+textarea,
+.input {
     background: #ffecb3;
-    color: #ff6f00;
+    color: #783519;
     text-align: center;
     font-weight: bold;
 }
@@ -38,7 +39,8 @@ textarea {
 
 .loading {
     padding: 5px;
-    font-size: 2rem;
+    margin: 15px;
+    font-size: 1.5rem;
 }
 
 .blink {
