@@ -30,7 +30,9 @@ export default function Heading() {
 
             <header className="min-h-14 flex pt-5 px-5 pb-2">
                 <div className="text-xl">
-                    <p className="font-bold text-2xl">digiDown</p>
+                    <p className="font-bold text-2xl">
+                        digiDown<span className="blink"> _</span>
+                    </p>
                     {router.asPath === "/" ? (
                         <p>Welcome</p>
                     ) : (

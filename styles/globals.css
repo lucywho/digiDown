@@ -41,6 +41,16 @@ textarea {
     font-size: 2rem;
 }
 
+.blink {
+    animation: blink 2s step-start 0s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
