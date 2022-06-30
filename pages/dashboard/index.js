@@ -89,8 +89,8 @@ export default function Dashboard({ products, purchases }) {
                             </div>
                         ))}
                     </>
-                )}{" "}
-                {/* <-end of products */}
+                )}
+
                 {purchases.length > 0 && (
                     <>
                         <h1 className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
@@ -131,14 +131,10 @@ export default function Dashboard({ products, purchases }) {
                                     get files
                                 </a>
                             </div>
-                        ))}{" "}
-                        {/*<-end of purchases map*/}
+                        ))}
                     </>
-                )}{" "}
-                {/*<-end of purchases*/}
+                )}
             </div>
-
-            {/* end of return     */}
         </>
     )
 }

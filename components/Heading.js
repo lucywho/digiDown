@@ -26,6 +26,7 @@ export default function Heading() {
                 <title>digiDown</title>
                 <meta name="description" content="digital downloads site" />
                 <link rel="icon" href="./digid.ico" />
+                <script src="https://js.stripe.com/v3/" async></script>
             </Head>
 
             <header className="min-h-14 flex pt-5 px-5 pb-2 mb-1">
