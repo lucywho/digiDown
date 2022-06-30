@@ -1,8 +1,17 @@
 import Link from "next/link"
+import { useSession } from "next-auth/react"
 import prisma from "lib/prisma"
 import { getProduct } from "lib/data"
+import { useRouter } from "next/router"
 
 export default function Product({ product }) {
+    const { data: session, status } = useSession()
+    const router = useRouter()
+    const loading = status === "loading"
+
+    if (loading) {
+        return <p className="loading">. . . loading</p>
+    }
     if (!product) {
         return <p className="loading">this product does not exist</p>
     }
@@ -35,11 +44,38 @@ export default function Product({ product }) {
                                 <p>${product.price / 100}</p>
                             )}
                         </div>
-                        <div className="">
-                            <button className="text-sm border p-2 font-bold uppercase button">
-                                PURCHASE
-                            </button>
-                        </div>
+
+                        {!session && <p>login to download</p>}
+                        {session && (
+                            <>
+                                {session.user.id !== product.author.id ? (
+                                    <button
+                                        className="text-sm border px-2 font-bold uppercase button"
+                                        onClick={async () => {
+                                            if (product.free) {
+                                                await fetch("/api/download", {
+                                                    body: JSON.stringify({
+                                                        product_id: product.id,
+                                                    }),
+                                                    headers: {
+                                                        "Content-Type":
+                                                            "application/json",
+                                                    },
+                                                    method: "POST",
+                                                })
+                                                router.push("/dashboard")
+                                            } else {
+                                                //stuff
+                                            }
+                                        }}
+                                    >
+                                        {product.free ? "DOWNLOAD" : "PURCHASE"}
+                                    </button>
+                                ) : (
+                                    "your product"
+                                )}
+                            </>
+                        )}
                     </div>
                     <div className="mb-10">{product.description}</div>
                     <div className="mb-10">

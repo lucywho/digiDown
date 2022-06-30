@@ -6,7 +6,7 @@ import { getProducts } from "lib/data"
 export default function Home({ products }) {
     return (
         <div>
-            <div className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full border-t-2 border-green-500 ">
+            <div className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full ">
                 products available
             </div>
             <div className="flex flex-col content-center justify-between w-2/3 mx-auto mt-5">
@@ -59,10 +59,10 @@ export default function Home({ products }) {
 }
 
 export async function getServerSideProps(context) {
-    let session = await getSession(context)
-    if (!session) return { props: {} }
+    // let session = await getSession(context)
+    // if (!session) return { props: {} }
 
-    let products = await getProducts(session, prisma)
+    let products = await getProducts({ take: 4 }, prisma)
     products = JSON.parse(JSON.stringify(products))
 
     return {

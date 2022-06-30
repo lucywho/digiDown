@@ -28,21 +28,21 @@ export default function Heading() {
                 <link rel="icon" href="./digid.ico" />
             </Head>
 
-            <header className="min-h-14 flex pt-5 px-5 pb-2 border-b-green-500">
+            <header className="min-h-14 flex pt-5 px-5 pb-2 mb-1">
                 <div className="text-xl">
-                    <p className="font-bold text-2xl">
+                    <p className="flex flex-row font-bold text-2xl">
                         digiDown<span className="blink"> _</span>
                     </p>
                 </div>
                 <div className="flex flex-row items-center justify-center w-full">
                     {router.asPath === "/" && (
-                        <p className="text-amber-400 text-xl font-bold">
+                        <p className="text-amber-400 text-2xl font-bold">
                             welcome
                         </p>
                     )}
 
                     {router.asPath === "/dashboard" && (
-                        <p className="text-amber-400 text-xl font-bold uppercase">
+                        <p className="text-amber-400 text-2xl font-bold uppercase">
                             dashboard
                         </p>
                     )}
@@ -53,19 +53,15 @@ export default function Heading() {
                 {session && router.asPath !== "/dashboard" && (
                     <Link href={`/dashboard`}>
                         <a className="flex">
-                            <p className="button max-h-10 mr-3 hover:underline hover:text-amber-400">
-                                dashboard
-                            </p>
+                            <p className="button max-h-10 mr-3 ">dashboard</p>
                         </a>
                     </Link>
                 )}
 
-                {session && router.asPath !== "/" && (
+                {router.asPath !== "/" && (
                     <Link href={`/`}>
                         <a className="flex">
-                            <p className="button max-h-10 mr-3 hover:underline hover:text-amber-400">
-                                home
-                            </p>
+                            <p className="button max-h-10 mr-3 ">home</p>
                         </a>
                     </Link>
                 )}

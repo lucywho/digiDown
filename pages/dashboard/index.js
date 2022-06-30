@@ -2,9 +2,9 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useSession, getSession } from "next-auth/react"
 import prisma from "lib/prisma"
-import { getProducts } from "lib/data"
+import { getProducts, getPurchases } from "lib/data"
 
-export default function Dashboard({ products }) {
+export default function Dashboard({ products, purchases }) {
     const { data: session, status } = useSession()
     const router = useRouter()
 
@@ -23,7 +23,7 @@ export default function Dashboard({ products }) {
     }
 
     return (
-        <div>
+        <>
             <div className="flex justify-end  mr-5">
                 <Link href={`/dashboard/new`}>
                     <p className="button text-sm p-2 border-amber-400">
@@ -32,69 +32,131 @@ export default function Dashboard({ products }) {
                 </Link>
             </div>
 
-            <div className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
-                your listed products
-            </div>
-            <div className="flex flex-col content-center justify-between w-2/3 mx-auto mt-5">
-                {products &&
-                    products.map((product, index) => (
-                        <div
-                            className="flex flex-row items-center justify-between mb-4"
-                            key={index}
-                        >
-                            {product.image ? (
-                                <img
-                                    src={product.image}
-                                    className="w-14 h-14 basis-1/10"
-                                    alt="product image"
-                                />
-                            ) : (
-                                <img
-                                    src="/digid.ico"
-                                    className="w-14 h-14 basis-1/10 border border-green-400 rounded-full"
-                                    alt="default icon"
-                                />
-                            )}
-                            <p className="basis-3/10 font-bold">
-                                {product.title}
-                            </p>
-                            <p className="basis-2/5 ">{product.description}</p>
+            {products.length === 0 && purchases.length === 0 && (
+                <h1 className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
+                    when you upload or download files, they will appear here
+                </h1>
+            )}
 
-                            {product.free ? (
-                                <span className="basis-1/10 bg-green-500 text-green-900 px-2">
-                                    free
-                                </span>
-                            ) : (
-                                <span className="basis-1/10 ">
-                                    € {product.price / 100}
-                                </span>
-                            )}
-                            <Link href={`/dashboard/product/${product.id}`}>
-                                <a className="button h-fit uppercase basis-1/10">
-                                    Edit
+            <div className="flex flex-col content-center justify-between w-2/3 mx-auto mt-5">
+                {products.length > 0 && (
+                    <>
+                        <h1 className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
+                            your listed products
+                        </h1>
+
+                        {products.map((product, index) => (
+                            <div
+                                className="flex flex-row items-center justify-between mb-4"
+                                key={index}
+                            >
+                                {product.image ? (
+                                    <img
+                                        src={product.image}
+                                        className="w-14 h-14 basis-1/10 flex-initial"
+                                        alt="product image"
+                                    />
+                                ) : (
+                                    <img
+                                        src="/digid.ico"
+                                        className="w-14 h-14 basis-1/10 border border-green-400 rounded-full"
+                                        alt="default icon"
+                                    />
+                                )}
+                                <p className="basis-3/10 font-bold">
+                                    {product.title}
+                                </p>
+
+                                {product.free ? (
+                                    <span className="bg-green-500 text-green-900 px-1 uppercase font-bold">
+                                        free
+                                    </span>
+                                ) : (
+                                    <span className="basis-1/10 ">
+                                        € {product.price / 100}
+                                    </span>
+                                )}
+                                <Link href={`/dashboard/product/${product.id}`}>
+                                    <a className="button h-fit uppercase basis-1/10">
+                                        Edit
+                                    </a>
+                                </Link>
+                                <Link href={`/product/${product.id}`}>
+                                    <a className="button h-fit uppercase basis-1/10">
+                                        View
+                                    </a>
+                                </Link>
+                            </div>
+                        ))}
+                    </>
+                )}{" "}
+                {/* <-end of products */}
+                {purchases.length > 0 && (
+                    <>
+                        <h1 className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
+                            your purchases
+                        </h1>
+                        {purchases.map((purchase, index) => (
+                            <div
+                                className="flex flex-row items-center justify-between mb-4"
+                                key={index}
+                            >
+                                {purchase.product.image ? (
+                                    <img
+                                        src={purchase.product.image}
+                                        className="w-14 h-14 basis-1/10 flex-initial"
+                                        alt="product image"
+                                    />
+                                ) : (
+                                    <img
+                                        src="/digid.ico"
+                                        className="w-14 h-14 basis-1/10 border border-green-400 rounded-full"
+                                        alt="default icon"
+                                    />
+                                )}
+                                <p className="basis-3/10 font-bold">
+                                    {purchase.product.title}
+                                </p>
+                                {parseInt(purchase.amount) === 0 ? (
+                                    <span className="bg-green-500 text-green-900 px-1 uppercase font-bold">
+                                        free
+                                    </span>
+                                ) : (
+                                    <p>€{purchase.amount / 100}</p>
+                                )}{" "}
+                                <a
+                                    className="button h-fit uppercase basis-1/10"
+                                    href={purchase.product.url}
+                                >
+                                    get files
                                 </a>
-                            </Link>
-                            <Link href={`/product/${product.id}`}>
-                                <a className="button h-fit uppercase basis-1/10">
-                                    View
-                                </a>
-                            </Link>
-                        </div>
-                    ))}
+                            </div>
+                        ))}{" "}
+                        {/*<-end of purchases map*/}
+                    </>
+                )}{" "}
+                {/*<-end of purchases*/}
             </div>
-        </div>
+
+            {/* end of return     */}
+        </>
     )
 }
 
 export async function getServerSideProps(context) {
     const session = await getSession(context)
     if (!session) return { props: {} }
+
     let products = await getProducts({ author: session.user.id }, prisma)
     products = JSON.parse(JSON.stringify(products))
+
+    let purchases = await getPurchases({ author: session.user.id }, prisma)
+    purchases = JSON.parse(JSON.stringify(purchases))
 
     return {
         props: {
             products,
+            purchases,
         },
     }
 }
