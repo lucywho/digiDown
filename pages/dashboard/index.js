@@ -24,14 +24,6 @@ export default function Dashboard({ products, purchases }) {
 
     return (
         <>
-            <div className="flex justify-end  mr-5">
-                <Link href={`/dashboard/new`}>
-                    <p className="button text-sm p-2 border-amber-400">
-                        create a new product
-                    </p>
-                </Link>
-            </div>
-
             {products.length === 0 && purchases.length === 0 && (
                 <h1 className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
                     when you upload or download files, they will appear here
@@ -86,6 +78,16 @@ export default function Dashboard({ products, purchases }) {
                                         View
                                     </a>
                                 </Link>
+                                <div className="text-amber-400">
+                                    {product.purchases &&
+                                        product.purchases.length > 0 && (
+                                            <p className="mt-3 text-right">
+                                                {product.purchases.length > 1
+                                                    ? `${product.purchases.length} sales`
+                                                    : `${product.purchases.length} sale`}
+                                            </p>
+                                        )}
+                                </div>
                             </div>
                         ))}
                     </>
@@ -143,7 +145,10 @@ export async function getServerSideProps(context) {
     const session = await getSession(context)
     if (!session) return { props: {} }
 
-    let products = await getProducts({ author: session.user.id }, prisma)
+    let products = await getProducts(
+        { author: session.user.id, includePurchases: true },
+        prisma
+    )
     products = JSON.parse(JSON.stringify(products))
 
     let purchases = await getPurchases({ author: session.user.id }, prisma)

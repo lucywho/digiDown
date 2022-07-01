@@ -1,10 +1,10 @@
 import Link from "next/link"
-import { useSession } from "next-auth/react"
+import { useSession, getSession } from "next-auth/react"
 import prisma from "lib/prisma"
-import { getProduct } from "lib/data"
+import { getProduct, alreadyPurchased } from "lib/data"
 import { useRouter } from "next/router"
 
-export default function Product({ product }) {
+export default function Product({ product, purchased }) {
     const { data: session, status } = useSession()
     const router = useRouter()
     const loading = status === "loading"
@@ -44,65 +44,80 @@ export default function Product({ product }) {
                 </div>
 
                 {!session && <p>login to download</p>}
+
                 {session && (
                     <>
-                        {session.user.id !== product.author.id ? (
-                            <button
-                                className="text-sm border px-2 font-bold uppercase button"
-                                onClick={async () => {
-                                    if (product.free) {
-                                        await fetch("/api/download", {
-                                            body: JSON.stringify({
-                                                product_id: product.id,
-                                            }),
-                                            headers: {
-                                                "Content-Type":
-                                                    "application/json",
-                                            },
-                                            method: "POST",
-                                        })
-                                        router.push("/dashboard")
-                                    } else {
-                                        const res = await fetch(
-                                            "/api/stripe/session",
-                                            {
-                                                body: JSON.stringify({
-                                                    amount: product.price,
-                                                    title: product.title,
-                                                    product_id: product.id,
-                                                }),
-                                                headers: {
-                                                    "Content-Type":
-                                                        "application/json",
-                                                },
-                                                method: "POST",
-                                            }
-                                        )
-
-                                        const data = await res.json()
-
-                                        if (data.status === "error") {
-                                            alert(data.message)
-                                            return
-                                        }
-
-                                        const sessionId = data.sessionId
-                                        const stripePublicKey =
-                                            data.stripePublicKey
-
-                                        const stripe = Stripe(stripePublicKey)
-
-                                        const { error } =
-                                            await stripe.redirectToCheckout({
-                                                sessionId,
-                                            })
-                                    }
-                                }}
-                            >
-                                {product.free ? "DOWNLOAD" : "PURCHASE"}
-                            </button>
+                        {purchased ? (
+                            <div className="flex flex-col justify-center text-center button bg-green-500 text-green-900 w-1/4">
+                                <p>already purchased</p>
+                            </div>
                         ) : (
-                            "your product"
+                            <>
+                                {session.user.id !== product.author.id ? (
+                                    <button
+                                        className="text-sm border px-2 font-bold uppercase button"
+                                        onClick={async () => {
+                                            if (product.free) {
+                                                await fetch("/api/download", {
+                                                    body: JSON.stringify({
+                                                        product_id: product.id,
+                                                    }),
+                                                    headers: {
+                                                        "Content-Type":
+                                                            "application/json",
+                                                    },
+                                                    method: "POST",
+                                                })
+                                                router.push("/dashboard")
+                                            } else {
+                                                const res = await fetch(
+                                                    "/api/stripe/session",
+                                                    {
+                                                        body: JSON.stringify({
+                                                            amount: product.price,
+                                                            title: product.title,
+                                                            product_id:
+                                                                product.id,
+                                                        }),
+                                                        headers: {
+                                                            "Content-Type":
+                                                                "application/json",
+                                                        },
+                                                        method: "POST",
+                                                    }
+                                                )
+
+                                                const data = await res.json()
+
+                                                if (data.status === "error") {
+                                                    alert(data.message)
+                                                    return
+                                                }
+
+                                                const sessionId = data.sessionId
+                                                const stripePublicKey =
+                                                    data.stripePublicKey
+
+                                                const stripe =
+                                                    Stripe(stripePublicKey)
+
+                                                const { error } =
+                                                    await stripe.redirectToCheckout(
+                                                        {
+                                                            sessionId,
+                                                        }
+                                                    )
+                                            }
+                                        }}
+                                    >
+                                        {product.free ? "DOWNLOAD" : "PURCHASE"}
+                                    </button>
+                                ) : (
+                                    <div className="flex flex-col justify-center text-center button bg-green-500 text-green-900 w-1/4">
+                                        <p>your product</p>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </>
                 )}
@@ -121,12 +136,24 @@ export default function Product({ product }) {
 }
 
 export async function getServerSideProps(context) {
+    const session = await getSession(context)
+
     let product = await getProduct(context.params.id, prisma)
     product = JSON.parse(JSON.stringify(product))
+
+    let purchased = null
+
+    if (session) {
+        purchased = await alreadyPurchased(
+            { author: session.user.id, product: context.params.id },
+            prisma
+        )
+    }
 
     return {
         props: {
             product,
+            purchased,
         },
     }
 }

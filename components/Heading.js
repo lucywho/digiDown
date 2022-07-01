@@ -49,7 +49,21 @@ export default function Heading() {
                     )}
                 </div>
 
-                <div className="grow ml-10 -mt-1"></div>
+                <div className="grow ml-5 -mt-1"></div>
+
+                {session && router.asPath === "/dashboard" && (
+                    <>
+                        <Link href={`/dashboard/sales`}>
+                            <a className="button max-h-10 mr-3">sales</a>
+                        </Link>
+
+                        <Link href={`/dashboard/new`}>
+                            <a className="button max-h-10 whitespace-nowrap mr-3">
+                                <p>create new product</p>
+                            </a>
+                        </Link>
+                    </>
+                )}
 
                 {session && router.asPath !== "/dashboard" && (
                     <Link href={`/dashboard`}>
