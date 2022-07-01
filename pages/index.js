@@ -9,48 +9,49 @@ export default function Home({ products }) {
             <div className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full ">
                 products available
             </div>
-            <div className="flex flex-col content-center justify-between w-2/3 mx-auto mt-5">
+            <div className="flex flex-col w-full md:w-2/3 lg:w-3/5 mx-auto mt-1 ">
                 {products &&
                     products.map((product, index) => (
                         <div
-                            className="flex flex-row items-center justify-between mb-4"
+                            className="flex flex-row items-center justify-between mb-2 md:mb-4"
                             key={index}
                         >
-                            {product.image ? (
-                                <img
-                                    src={product.image}
-                                    className="w-14 h-14 basis-1/10"
-                                    alt="product image"
-                                />
-                            ) : (
-                                <img
-                                    src="/digid.ico"
-                                    className="w-14 h-14 basis-1/10 border border-green-400 rounded-full"
-                                    alt="default icon"
-                                />
-                            )}
-                            <p className="flex font-bold w-1/4">
+                            <div className="w-10 md:w-14">
+                                {product.image ? (
+                                    <img
+                                        src={product.image}
+                                        className="w-10 h-10 md:w-14 md:h-14 mx-1 "
+                                        alt="product image"
+                                    />
+                                ) : (
+                                    <img
+                                        src="/digid.ico"
+                                        className="w-10 h-10 md:w-14 md:h-14 mx-1 border border-green-400 rounded-full"
+                                        alt="default icon"
+                                    />
+                                )}
+                            </div>
+                            <p className="font-bold flex-grow ml-6">
                                 {product.title}
                             </p>
-                            <p className="flex basis-2/5 w-1/2">
-                                {product.description}
-                            </p>
-
-                            {product.free ? (
-                                <span className="flex basis-1/10 bg-green-500 text-green-900 px-2 justify-center m-0">
-                                    free
-                                </span>
-                            ) : (
-                                <span className="flex basis-1/10 justify-center m-0">
-                                    € {product.price / 100}
-                                </span>
-                            )}
-
-                            <Link href={`/product/${product.id}`}>
-                                <a className="button h-fit uppercase basis-1/10">
-                                    View
-                                </a>
-                            </Link>
+                            <div className="w-14 mr-2 md:mr-4 text-left text-sm md:text-base font-bold">
+                                {product.free ? (
+                                    <span className="bg-green-500 text-green-900 px-2 uppercase">
+                                        free
+                                    </span>
+                                ) : (
+                                    <span className="">
+                                        € {product.price / 100}
+                                    </span>
+                                )}
+                            </div>
+                            <div className="w-14 text-sm md:text-base">
+                                <Link href={`/product/${product.id}`}>
+                                    <a className="button h-fit uppercase ">
+                                        View
+                                    </a>
+                                </Link>{" "}
+                            </div>
                         </div>
                     ))}
             </div>
@@ -59,9 +60,6 @@ export default function Home({ products }) {
 }
 
 export async function getServerSideProps(context) {
-    // let session = await getSession(context)
-    // if (!session) return { props: {} }
-
     let products = await getProducts({ take: 4 }, prisma)
     products = JSON.parse(JSON.stringify(products))
 

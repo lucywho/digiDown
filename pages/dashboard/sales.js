@@ -23,7 +23,7 @@ export default function Sales({ sales }) {
     }
     return (
         <>
-            <h1 className="flex justify-center mt-5 pt-5 font-bold text-amber-500 uppercase w-full">
+            <h1 className="w-full text-center text-amber-500 text-2xl font-bold mt-5 uppercase">
                 Sales
             </h1>
             <h3 className="flex justify-center mt-5 text-lg mb-10">

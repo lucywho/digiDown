@@ -25,7 +25,7 @@ export default function NewProduct() {
 
     return (
         <div>
-            <h1 className="flex justify-center text-2xl font-bold text-amber-400">
+            <h1 className="w-full text-center text-amber-400 text-2xl font-bold uppercase mt-5">
                 create a new product
             </h1>
 

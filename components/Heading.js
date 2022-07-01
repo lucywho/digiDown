@@ -12,9 +12,9 @@ export default function Heading() {
 
     if (loading) {
         return (
-            <header className="min-h-14 flex pt-5 px-5 pb-2">
+            <header className="min-h-14 flex pt-5 px-5">
                 <div className="text-xl">
-                    <p className="font-bold text-2xl">digiDown</p>
+                    <p className="font-bold text-2xl">digiDown_</p>
                 </div>
             </header>
         )
@@ -29,64 +29,73 @@ export default function Heading() {
                 <script src="https://js.stripe.com/v3/" async></script>
             </Head>
 
-            <header className="min-h-14 flex pt-5 px-5 pb-2 mb-1">
-                <div className="text-xl">
-                    <p className="flex flex-row font-bold text-2xl">
-                        digiDown<span className="blink"> _</span>
-                    </p>
-                </div>
-                <div className="flex flex-row items-center justify-center w-full">
-                    {router.asPath === "/" && (
-                        <p className="text-amber-400 text-2xl font-bold">
-                            welcome
+            <header className="min-h-14 flex flex-col pt-1 px-1 md:flex-row md:pt-5 md:px-5">
+                <div className="flex flex-row w-full justify-between pb-4">
+                    <div className="text-xl">
+                        <p className="flex flex-row font-bold text-2xl">
+                            digiDown<span className="blink"> _</span>
                         </p>
-                    )}
-
-                    {router.asPath === "/dashboard" && (
-                        <p className="text-amber-400 text-2xl font-bold uppercase">
-                            dashboard
-                        </p>
-                    )}
+                    </div>
+                    <div className="flex flex-row items-center md:justify-center justify-end text-right">
+                        {router.asPath === "/" && (
+                            <p className="text-l md:text-xl uppercase ">
+                                welcome,
+                                {session && session.user.name
+                                    ? ` ${session.user.name}`
+                                    : "stranger"}
+                            </p>
+                        )}
+                    </div>
                 </div>
 
                 <div className="grow ml-5 -mt-1"></div>
 
-                {session && router.asPath === "/dashboard" && (
-                    <>
-                        <Link href={`/dashboard/sales`}>
-                            <a className="button max-h-10 mr-3">sales</a>
-                        </Link>
+                <div className="flex flex-row justify-end">
+                    {session && router.asPath === "/dashboard" && (
+                        <>
+                            <Link href={`/dashboard/sales`}>
+                                <a className="button max-h-10 mr-1 md:mr-3">
+                                    sales
+                                </a>
+                            </Link>
 
-                        <Link href={`/dashboard/new`}>
-                            <a className="button max-h-10 whitespace-nowrap mr-3">
-                                <p>create new product</p>
+                            <Link href={`/dashboard/new`}>
+                                <a className="button max-h-10 whitespace-nowrap  mr-1 md:mr-3">
+                                    <p>create new product</p>
+                                </a>
+                            </Link>
+                        </>
+                    )}
+
+                    {session && router.asPath !== "/dashboard" && (
+                        <Link href={`/dashboard`}>
+                            <a className="flex">
+                                <p className="button max-h-10 mr-1 md:mr-3 ">
+                                    dashboard
+                                </p>
                             </a>
                         </Link>
-                    </>
-                )}
+                    )}
 
-                {session && router.asPath !== "/dashboard" && (
-                    <Link href={`/dashboard`}>
-                        <a className="flex">
-                            <p className="button max-h-10 mr-3 ">dashboard</p>
-                        </a>
-                    </Link>
-                )}
+                    {router.asPath !== "/" && (
+                        <Link href={`/`}>
+                            <a className="flex">
+                                <p className="button max-h-10 mr-1 md:mr-3 ">
+                                    home
+                                </p>
+                            </a>
+                        </Link>
+                    )}
 
-                {router.asPath !== "/" && (
-                    <Link href={`/`}>
-                        <a className="flex">
-                            <p className="button max-h-10 mr-3 ">home</p>
-                        </a>
-                    </Link>
-                )}
-
-                <a
-                    className="button max-h-10"
-                    href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                >
-                    {session ? "logout" : "login"}
-                </a>
+                    <a
+                        className="button max-h-10"
+                        href={
+                            session ? "/api/auth/signout" : "/api/auth/signin"
+                        }
+                    >
+                        {session ? "logout" : "login"}
+                    </a>
+                </div>
             </header>
         </>
     )
