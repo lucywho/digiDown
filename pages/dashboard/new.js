@@ -21,6 +21,7 @@ export default function NewProduct() {
 
     if (!session) {
         router.push("/")
+        return null
     }
 
     return (

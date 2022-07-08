@@ -29,6 +29,7 @@ export default function Product({ product }) {
 
     if (session && !session.user.name) {
         router.push("/setup")
+        return null
     }
 
     return (

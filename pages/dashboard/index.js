@@ -16,10 +16,12 @@ export default function Dashboard({ products, purchases }) {
 
     if (!session) {
         router.push("/")
+        return null
     }
 
     if (session && !session.user.name) {
         router.push("/setup")
+        return null
     }
 
     return (

@@ -15,6 +15,7 @@ export default function Setup() {
 
     if (!loading && session.user.name) {
         router.push("/dashboard")
+        return null
     }
 
     return (
