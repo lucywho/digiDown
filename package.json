@@ -12,7 +12,7 @@
     "aws-sdk": "^2.1477.0",
     "javascript-time-ago": "^2.5.4",
     "multiparty": "^4.2.3",
-    "next": "14.2.22",
+    "next": "16.1.6",
     "next-auth": "^4.24.13",
     "next-connect": "^0.12.2",
     "nodemailer": "^8.0.1",
